@@ -1,0 +1,12 @@
+flask
+flask-sqlalchemy
+flask-login
+flask-wtf
+werkzeug
+chromadb
+transformers
+torch
+langchain-community
+ollama
+sentence-transformers
+PyPDF2

@@ -1,0 +1,12 @@
+config.py
+__pycache__/
+instance/
+chroma_data/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+.env/
+venv/
+*.db
+data/

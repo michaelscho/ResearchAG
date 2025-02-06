@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.app-container {
+    max-width: 100%;
+    padding: 0 50px; /* Optional: Add slight padding for better readability */
+}
+
+.navbar-brand {
+    font-weight: bold;
+}
+
+.btn {
+    border-radius: 0;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+.text-danger {
+    font-size: 0.9em;
+    margin-top: 0.2em;
+}

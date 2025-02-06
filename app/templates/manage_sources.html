@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Manage {{ collection_name.capitalize() }}</h2>
+
+    <!-- Add Document Form -->
+    <form method="POST" class="mb-4">
+       
+        <div class="mb-3">
+            <label for="doc_id" class="form-label">Document ID</label>
+            <input type="text" class="form-control" id="doc_id" name="doc_id" required>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Document Content</label>
+            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Document</button>
+    </form>
+
+    <!-- Table of Documents -->
+    <h3>Stored Documents</h3>
+    <table id="documentsTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Document ID</th>
+                <th>Content</th>
+                <th>Metadata</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for metadata in documents['metadatas'] %}
+<tr>
+    <td>{{ loop.index }}</td> <!-- Jinja2's loop.index starts from 1 -->
+    <td>{{ metadata.get('id', 'Unknown') }}</td>
+    <td>{{ documents['documents'][loop.index0] }}</td> <!-- loop.index0 starts from 0 -->
+    <td>{{ metadata }}</td>
+    <td>
+        <a href="{{ url_for('routes.manage_collection', collection_name=collection_name, delete=metadata.get('id', '')) }}" 
+           class="btn btn-danger btn-sm"
+           onclick="return confirm('Are you sure you want to delete this document?');">Delete</a>
+    </td>
+</tr>
+{% endfor %}
+
+
+        </tbody>
+        
+        
+    </table>
+</div>
+
+<!-- Include DataTables -->
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+
+<!-- Initialize DataTable -->
+<script>
+    $(document).ready(function() {
+        $('#documentsTable').DataTable({
+            "paging": true,
+            "searching": true,
+            "ordering": true,
+            "info": true
+        });
+    });
+</script>
+{% endblock %}
+
+
+

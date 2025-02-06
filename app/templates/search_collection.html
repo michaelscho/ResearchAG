@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+    <h2>Search in {{ collection_name.capitalize() }}</h2>
+
+    <!-- Search Form -->
+    <form method="POST" class="mb-4">
+      
+        <div class="mb-3">
+            <label for="query" class="form-label">Search Query</label>
+            <input type="text" class="form-control" id="query" name="query" value="{{ query }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+
+    <h2>Search Results for "{{ query }}" in {{ collection_name.capitalize() }}</h2>
+
+    <!-- Display Results -->
+    {% if zipped_results %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Note ID</th>
+                <th>Content</th>
+                <th>Added By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for document, metadata in zipped_results %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ metadata['id'] }}</td>
+                <td>{{ document }}</td>
+                <td>{{ metadata['added_by'] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% elif query %}
+    <p>No results found for "{{ query }}".</p>
+    {% else %}
+    <p>Enter a search query to find notes.</p>
+    {% endif %}
+</div>
+{% endblock %}
+

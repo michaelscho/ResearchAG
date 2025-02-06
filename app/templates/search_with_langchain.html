@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>"{{ query }}"</h2>
+
+    <!-- Search Form -->
+    <form method="POST" class="mb-4">
+        
+        <div class="mb-3">
+            <label for="query" class="form-label">Search Query</label>
+            <input type="text" class="form-control" id="query" name="query" value="{{ query }}" required>
+        </div>
+        <div class="form-group">
+            <label for="k">Number of Results (k):</label>
+            <input type="number" name="k" id="k" class="form-control" min="1" value="5">
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    </form>
+
+
+    
+
+    <!-- Display Answer -->
+    {% if answer %}
+    <h3>Generated Answer</h3>
+    <p>{{ answer }}</p>
+    {% endif %}
+
+    <!-- Display Retrieved Documents -->
+    {% if retrieved_documents %}
+    <h3>Retrieved Documents</h3>
+
+    {% if collection_name == 'sources' %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>ID</th>
+                <th>Content</th>
+                <th>Translation</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc in retrieved_documents %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ doc.metadata.chapter_id }}</td>
+                <td><h5>{{ doc.metadata.latin_heading }}</h5><br/>{{ doc.metadata.latin_content }}</td>
+                <td>{{ doc.page_content }}</td>
+                <td><a href="{{ doc.metadata.chapter_url }}">link</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% else %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Note ID</th>
+                <th>Content</th>
+                <th>Added By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for doc in retrieved_documents %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ doc.metadata.id }}</td>
+                <td>{{ doc.page_content }}</td>
+                <td>{{ doc.metadata.added_by }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+    {% endif %}
+
+
+</div>
+{% endblock %}

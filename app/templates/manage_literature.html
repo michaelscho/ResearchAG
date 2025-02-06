@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Manage Literature</h2>
+
+    <!-- Form for Uploading PDF -->
+    <form method="POST" enctype="multipart/form-data" class="mb-4">
+        
+        <div class="mb-3">
+            <label for="author" class="form-label">Author</label>
+            <input type="text" class="form-control" id="author" name="author" required>
+        </div>
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="mb-3">
+            <label for="year" class="form-label">Year</label>
+            <input type="text" class="form-control" id="year" name="year" required>
+        </div>
+        <div class="mb-3">
+            <label for="file" class="form-label">Upload PDF</label>
+            <input type="file" class="form-control" id="file" name="file" accept=".pdf" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Literature</button>
+    </form>
+
+
+
+<!-- Display Literature -->
+<h3>Literature Collection</h3>
+<form action="{{ url_for('routes.delete_all_literature') }}" method="POST" onsubmit="return confirm('Are you sure you want to delete all documents? This action cannot be undone.')">
+    <button type="submit" class="btn btn-danger">Delete All Literature</button>
+</form>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Author</th>
+            <th>Title</th>
+            <th>Year</th>
+            <th>Added By</th>
+            <th>Chunk Count</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for doc_id, doc in documents.items() %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ doc.author }}</td>
+            <td>{{ doc.title }}</td>
+            <td>{{ doc.year }}</td>
+            <td>{{ doc.added_by }}</td>
+            <td>{{ doc.chunk_count }}</td>
+            <td>
+                <a href="{{ url_for('routes.manage_literature', delete=doc_id) }}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

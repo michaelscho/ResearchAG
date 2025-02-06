@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <h2>Manage Notes</h2>
+
+    <!-- Form to Add a New Note -->
+    <form method="POST" class="mb-4">
+     
+        <div class="mb-3">
+            <label for="content" class="form-label">Note Content</label>
+            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="doc_id" class="form-label">Optional Note ID</label>
+            <input type="text" class="form-control" id="doc_id" name="doc_id" placeholder="Leave blank to auto-generate">
+        </div>
+        <button type="submit" class="btn btn-primary">Add Note</button>
+    </form>
+
+    <!-- Display Existing Notes -->
+    <h3>Existing Notes</h3>
+    {% if documents['documents'] %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Note ID</th>
+                <th>Content</th>
+                <th>Added By</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for metadata in documents['metadatas'] %}
+            <tr>
+                <td>{{ loop.index }}</td> <!-- Jinja2 loop.index starts from 1 -->
+                <td>{{ metadata.get('id', 'Unknown') }}</td>
+                <td>{{ documents['documents'][loop.index0] }}</td> <!-- loop.index0 starts from 0 -->
+                <td>{{ metadata.get('added_by', 'Unknown') }}</td>
+                <td>
+                    <a href="{{ url_for('routes.manage_notes', delete=metadata.get('id', '')) }}" 
+                       class="btn btn-danger btn-sm"
+                       onclick="return confirm('Are you sure you want to delete this note?');">
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+    {% else %}
+    <p>No notes available.</p>
+    {% endif %}
+</div>
+{% endblock %}
